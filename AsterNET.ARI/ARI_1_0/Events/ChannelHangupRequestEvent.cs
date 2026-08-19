@@ -25,10 +25,15 @@ namespace AsterNET.ARI.Models
 		/// </summary>
 		public bool Soft { get; set; }
 
-		/// <summary>
-		/// The channel on which the hangup was requested.
-		/// </summary>
-		public Channel Channel { get; set; }
+        /// <summary>
+        /// Integer representation of the technology-specific off-nominal cause of the hangup.
+        /// </summary>
+        public int Tech_cause { get; set; }
+
+        /// <summary>
+        /// The channel on which the hangup was requested.
+        /// </summary>
+        public Channel Channel { get; set; }
 
 	}
 }
