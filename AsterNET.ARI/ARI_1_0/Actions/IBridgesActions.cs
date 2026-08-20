@@ -41,16 +41,30 @@ namespace AsterNET.ARI.Actions
 		/// </summary>
 		/// <param name="bridgeId">Bridge's id</param>
 		void Destroy(string bridgeId);
-		/// <summary>
-		/// Add a channel to a bridge.. 
-		/// </summary>
-		/// <param name="bridgeId">Bridge's id</param>
-		/// <param name="channel">Ids of channels to add to bridge</param>
-		/// <param name="role">Channel's role in the bridge</param>
-		/// <param name="absorbDTMF">Absorb DTMF coming from this channel, preventing it to pass through to the bridge</param>
-		/// <param name="mute">Mute audio from this channel, preventing it to pass through to the bridge</param>
-		/// <param name="inhibitConnectedLineUpdates">Do not present the identity of the newly connected channel to other bridge members</param>
-		void AddChannel(string bridgeId, string channel, string role = null, bool? absorbDTMF = null, bool? mute = null, bool? inhibitConnectedLineUpdates = null);
+        /// <summary>
+        /// Get the value of a bridge variable or function.
+        /// </summary>
+        /// <param name="bridgeId">Bridge's id</param>
+        /// <param name="variable">The bridge variable or function to get</param>
+        Variable GetBridgeVar(string bridgeId, string variable);
+        /// <summary>
+        /// Set the value of a bridge variable or function.
+        /// </summary>
+        /// <param name="bridgeId">Bridge's id</param>
+        /// <param name="variable">The bridge variable or function to set</param>
+        /// <param name="value">The value to set the variable to</param>
+        /// <param name="reportEvents">Whether this variable should be included in bridge events. Defaults to false.</param>
+        void SetBridgeVar(string bridgeId, string variable, string value, bool? reportEvents = null);
+        /// <summary>
+        /// Add a channel to a bridge.. 
+        /// </summary>
+        /// <param name="bridgeId">Bridge's id</param>
+        /// <param name="channel">Ids of channels to add to bridge</param>
+        /// <param name="role">Channel's role in the bridge</param>
+        /// <param name="absorbDTMF">Absorb DTMF coming from this channel, preventing it to pass through to the bridge</param>
+        /// <param name="mute">Mute audio from this channel, preventing it to pass through to the bridge</param>
+        /// <param name="inhibitConnectedLineUpdates">Do not present the identity of the newly connected channel to other bridge members</param>
+        void AddChannel(string bridgeId, string channel, string role = null, bool? absorbDTMF = null, bool? mute = null, bool? inhibitConnectedLineUpdates = null);
 		/// <summary>
 		/// Remove a channel from a bridge.. 
 		/// </summary>
