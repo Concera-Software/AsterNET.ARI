@@ -20,6 +20,11 @@ namespace AsterNET.ARI.Models
 		/// </summary>
 		public string Id { get; set; }
 
+        /// <summary>
+        /// Protocol id from underlying channel driver (i.e. Call-ID for chan_sip/chan_pjsip; will be empty if not applicable or not implemented by driver).
+        /// </summary>
+        public string Protocol_id { get; set; }
+
 		/// <summary>
 		/// Name of the channel (i.e. SIP/foo-0000a7e3)
 		/// </summary>

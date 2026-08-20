@@ -140,16 +140,88 @@ namespace AsterNET.ARI.Actions
 					throw new AriException(string.Format("Unknown response code {0} from ARI.", response.StatusCode), (int)response.StatusCode);
             }
 		}
-		/// <summary>
-		/// Add a channel to a bridge.. 
-		/// </summary>
-		/// <param name="bridgeId">Bridge's id</param>
-		/// <param name="channel">Ids of channels to add to bridge</param>
-		/// <param name="role">Channel's role in the bridge</param>
-		/// <param name="absorbDTMF">Absorb DTMF coming from this channel, preventing it to pass through to the bridge</param>
-		/// <param name="mute">Mute audio from this channel, preventing it to pass through to the bridge</param>
-		/// <param name="inhibitConnectedLineUpdates">Do not present the identity of the newly connected channel to other bridge members</param>
-		public void AddChannel(string bridgeId, string channel, string role = null, bool? absorbDTMF = null, bool? mute = null, bool? inhibitConnectedLineUpdates = null)
+        /// <summary>
+        /// Get the value of a bridge variable or function.
+        /// </summary>
+        /// <param name="bridgeId">Bridge's id</param>
+        /// <param name="variable">The bridge variable or function to get</param>
+        public Variable GetBridgeVar(string bridgeId, string variable)
+		{
+			string path = "/bridges/{bridgeId}/variables";
+            var request = GetNewRequest(path, HttpMethod.GET);
+            if (bridgeId != null)
+				request.AddUrlSegment("bridgeId", bridgeId);
+			if (variable != null)
+				request.AddParameter("variable", variable, ParameterType.QueryString);
+
+            var response = Execute<Variable>(request);
+
+            if ((int)response.StatusCode >= 200 && (int)response.StatusCode < 300)
+			{
+				return response.Data;
+			}
+            switch ((int)response.StatusCode)
+			{
+				case 400:
+                    throw new AriException("Missing variable parameter", (int)response.StatusCode);
+				case 404:
+                    throw new AriException("Bridge or variable not found", (int)response.StatusCode);
+                case 409:
+                    throw new AriException("Bridge not in a Stasis application", (int)response.StatusCode);
+                default:
+                    // Unknown server response
+                    throw new AriException(string.Format("Unknown response code {0} from ARI.", response.StatusCode), (int)response.StatusCode);
+            }
+        }
+        /// <summary>
+        /// Set the value of a bridge variable or function.
+        /// </summary>
+        /// <param name="bridgeId">Bridge's id</param>
+        /// <param name="variable">The bridge variable or function to set</param>
+        /// <param name="value">The value to set the variable to</param>
+        /// <param name="reportEvents">Whether this variable should be included in bridge events. Defaults to false.</param>
+        public void SetBridgeVar(string bridgeId, string variable, string value, bool? reportEvents = null)
+        {
+			string path = "/bridges/{bridgeId}/variable";
+            var request = GetNewRequest(path, HttpMethod.POST);
+            if (bridgeId != null)
+                request.AddUrlSegment("bridgeId", bridgeId);
+            if (variable != null)
+                request.AddParameter("variable", variable, ParameterType.QueryString);
+            if (value != null)
+                request.AddParameter("value", value, ParameterType.QueryString);
+			if (reportEvents != null)
+				request.AddParameter("report_events", reportEvents, ParameterType.QueryString);
+
+            var response = Execute(request);
+
+            if ((int)response.StatusCode >= 200 && (int)response.StatusCode < 300)
+			{
+				return;
+			}
+            switch ((int)response.StatusCode)
+			{
+                case 400:
+                    throw new AriException("Missing variable parameter", (int)response.StatusCode);
+                case 404:
+                    throw new AriException("Bridge not found", (int)response.StatusCode);
+                case 409:
+                    throw new AriException("Bridge not in a Stasis application", (int)response.StatusCode);
+                default:
+                    // Unknown server response
+                    throw new AriException(string.Format("Unknown response code {0} from ARI.", response.StatusCode), (int)response.StatusCode);
+            }
+        }
+        /// <summary>
+        /// Add a channel to a bridge.. 
+        /// </summary>
+        /// <param name="bridgeId">Bridge's id</param>
+        /// <param name="channel">Ids of channels to add to bridge</param>
+        /// <param name="role">Channel's role in the bridge</param>
+        /// <param name="absorbDTMF">Absorb DTMF coming from this channel, preventing it to pass through to the bridge</param>
+        /// <param name="mute">Mute audio from this channel, preventing it to pass through to the bridge</param>
+        /// <param name="inhibitConnectedLineUpdates">Do not present the identity of the newly connected channel to other bridge members</param>
+        public void AddChannel(string bridgeId, string channel, string role = null, bool? absorbDTMF = null, bool? mute = null, bool? inhibitConnectedLineUpdates = null)
 		{
 			string path = "bridges/{bridgeId}/addChannel";
 			var request = GetNewRequest(path, HttpMethod.POST);

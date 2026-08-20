@@ -35,17 +35,18 @@ namespace AsterNET.ARI.Actions
 		/// <param name="originator">The unique id of the channel which is originating this one.</param>
 		/// <param name="formats">The format name capability list to use if originator is not specified. Ex. "ulaw,slin16".  Format names can be found with "core show codecs".</param>
 		Channel Originate(string endpoint, string extension = null, string context = null, long? priority = null, string label = null, string app = null, string appArgs = null, string callerId = null, int? timeout = null, Dictionary<string, string> variables = null, string channelId = null, string otherChannelId = null, string originator = null, string formats = null);
-		/// <summary>
-		/// Create channel.. 
-		/// </summary>
-		/// <param name="endpoint">Endpoint for channel communication</param>
-		/// <param name="app">Stasis Application to place channel into</param>
-		/// <param name="appArgs">The application arguments to pass to the Stasis application provided by 'app'. Mutually exclusive with 'context', 'extension', 'priority', and 'label'.</param>
-		/// <param name="channelId">The unique id to assign the channel on creation.</param>
-		/// <param name="otherChannelId">The unique id to assign the second channel when using local channels.</param>
-		/// <param name="originator">Unique ID of the calling channel</param>
-		/// <param name="formats">The format name capability list to use if originator is not specified. Ex. "ulaw,slin16".  Format names can be found with "core show codecs".</param>
-		Channel Create(string endpoint, string app, string appArgs = null, string channelId = null, string otherChannelId = null, string originator = null, string formats = null);
+        /// <summary>
+        /// Create channel.. 
+        /// </summary>
+        /// <param name="endpoint">Endpoint for channel communication</param>
+        /// <param name="app">Stasis Application to place channel into</param>
+        /// <param name="appArgs">The application arguments to pass to the Stasis application provided by 'app'. Mutually exclusive with 'context', 'extension', 'priority', and 'label'.</param>
+        /// <param name="channelId">The unique id to assign the channel on creation.</param>
+        /// <param name="otherChannelId">The unique id to assign the second channel when using local channels.</param>
+        /// <param name="originator">Unique ID of the calling channel</param>
+        /// <param name="formats">The format name capability list to use if originator is not specified. Ex. "ulaw,slin16".  Format names can be found with "core show codecs".</param>
+        /// <param name="variables">The "variables" key in the body object holds variable key/value pairs to set on the channel on creation. Other keys in the body object are interpreted as query parameters. Ex. { "endpoint": "SIP/Alice", "variables": { "CALLERID(name)": "Alice" } }</param>
+        Channel Create(string endpoint, string app, string appArgs = null, string channelId = null, string otherChannelId = null, string originator = null, string formats = null, Dictionary<string, string> variables = null);
 		/// <summary>
 		/// Channel details.. 
 		/// </summary>
