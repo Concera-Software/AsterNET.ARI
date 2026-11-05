@@ -42,6 +42,18 @@ namespace AsterNET.ARI.Actions
 		/// <param name="bridgeId">Bridge's id</param>
 		void Destroy(string bridgeId);
         /// <summary>
+        /// Get the values of multiple bridge variables or functions.
+        /// </summary>
+        /// <param name="bridgeId">Bridge's id</param>
+        /// <param name="variables">Names of the bridge variables or functions to get</param>
+        Dictionary<string, string> GetBridgeVars(string bridgeId, IEnumerable<string> variables);
+        /// <summary>
+        /// Set the values of multiple bridge variables or functions.
+        /// </summary>
+        /// <param name="bridgeId">Bridge's id</param>
+        /// <param name="variables">Dictionary of bridge variables to set. Each value can be a string or an object containing value and report_events.</param>
+        void SetBridgeVars(string bridgeId, Dictionary<string, object> variables);
+        /// <summary>
         /// Get the value of a bridge variable or function.
         /// </summary>
         /// <param name="bridgeId">Bridge's id</param>

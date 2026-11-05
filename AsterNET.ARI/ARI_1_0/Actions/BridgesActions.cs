@@ -141,13 +141,79 @@ namespace AsterNET.ARI.Actions
             }
 		}
         /// <summary>
+        /// Get the values of multiple bridge variables or functions.
+        /// </summary>
+        /// <param name="bridgeId">Bridge's id</param>
+        /// <param name="variables">Names of the bridge variables or functions to get</param>
+        public Dictionary<string, string> GetBridgeVars(string bridgeId, IEnumerable<string> variables)
+        {
+            string path = "bridges/{bridgeId}/variables";
+            var request = GetNewRequest(path, HttpMethod.GET);
+            if (bridgeId != null)
+                request.AddUrlSegment("bridgeId", bridgeId);
+            if (variables != null)
+                request.AddParameter("variables", string.Join(",", variables), ParameterType.QueryString);
+
+            var response = Execute<Dictionary<string, Dictionary<string, string>>>(request);
+
+            if ((int)response.StatusCode >= 200 && (int)response.StatusCode < 300)
+            {
+                return response.Data["variables"];
+            }
+            switch ((int)response.StatusCode)
+            {
+                case 400:
+                    throw new AriException("Missing variables parameter", (int)response.StatusCode);
+                case 404:
+                    throw new AriException("Bridge or variable not found", (int)response.StatusCode);
+                case 409:
+                    throw new AriException("Bridge not in a Stasis application", (int)response.StatusCode);
+                default:
+                    // Unknown server response
+                    throw new AriException(string.Format("Unknown response code {0} from ARI.", response.StatusCode), (int)response.StatusCode);
+            }
+        }
+        /// <summary>
+        /// Set the values of multiple bridge variables or functions.
+        /// </summary> 
+        /// <param name="bridgeId">Bridge's id</param>
+        /// <param name="variables">Dictionary of bridge variables to set. Each value can be a string or an object containing value and report_events.</param>
+        public void SetBridgeVars(string bridgeId, Dictionary<string, object> variables)
+        {
+            string path = "bridges/{bridgeId}/variables";
+            var request = GetNewRequest(path, HttpMethod.POST);
+            if (bridgeId != null)
+                request.AddUrlSegment("bridgeId", bridgeId);
+            if (variables != null)
+                request.AddParameter("application/json", new { variables = variables }, ParameterType.RequestBody);
+
+            var response = Execute(request);
+
+            if ((int)response.StatusCode >= 200 && (int)response.StatusCode < 300)
+            {
+                return;
+            }
+            switch ((int)response.StatusCode)
+            {
+                case 400:
+                    throw new AriException("Missing variables parameter", (int)response.StatusCode);
+                case 404:
+                    throw new AriException("Bridge not found", (int)response.StatusCode);
+                case 409:
+                    throw new AriException("Bridge not in a Stasis application", (int)response.StatusCode);
+                default:
+                    // Unknown server response
+                    throw new AriException(string.Format("Unknown response code {0} from ARI.", response.StatusCode), (int)response.StatusCode);
+            }
+        }
+        /// <summary>
         /// Get the value of a bridge variable or function.
         /// </summary>
         /// <param name="bridgeId">Bridge's id</param>
         /// <param name="variable">The bridge variable or function to get</param>
         public Variable GetBridgeVar(string bridgeId, string variable)
 		{
-			string path = "/bridges/{bridgeId}/variables";
+			string path = "/bridges/{bridgeId}/variable";
             var request = GetNewRequest(path, HttpMethod.GET);
             if (bridgeId != null)
 				request.AddUrlSegment("bridgeId", bridgeId);

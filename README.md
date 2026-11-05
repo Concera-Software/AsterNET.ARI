@@ -26,6 +26,11 @@ Concera.AsterNET.ARI retains the existing `AsterNET.ARI` namespaces.
 Replace the package reference; existing using directives should generally
 not require changes.
 
+## Code generation
+
+The original ARICodeGen tooling is currently outdated and is not maintained as part of this fork.
+The library uses existing generated models and actions, which are maintained manually until code generation support is restored.
+
 ## Attribution
 
 This project is based on AsterNET.ARI, originally created by Ben Merrills and its contributors.
