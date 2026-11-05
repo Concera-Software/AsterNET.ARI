@@ -1,3 +1,12 @@
+05.11.2026        Concera Software (RL) - v1.3.0
+    Added    Support for specifying channel variables when creating channels.
+    Added    Support for reading and writing single and multiple bridge variables.
+    Added    Protocol_id property to the Channel model.
+    Added    Tech_cause property to ChannelHangupRequest and ChannelDestroyed events.
+    Fixed    RTP SSRC fields now use unsigned 32-bit integers, matching Asterisk's underlying definitions and preventing deserialization errors.
+    Changed  Updated Newtonsoft.Json from 9.0.1 to 13.0.4 for the .NET Framework project.
+    Changed  Removed the outdated ARICodeGen project from the Visual Studio solution while retaining its source files.
+
 05.12.2014		Skrusty
 	Added support for auto reconnecting to asterisk in the event of unexpected disconnection (Socket Exception) or asterisk closing our connection
 	Added event for connection state changed on ARIClient
@@ -63,13 +72,3 @@
 	Added	AsterNET.ARI classlib now contains the output of CodeGen
 	Added	New example to AsterNET.ARI.TestApplication, based on the example for ari-py (https://github.com/asterisk/ari-py/blob/master/examples/example.py)
 	Added	Started samples to show how to use AsterNET.ARI in real-world examples (yet to add anything of interest)
-
-05.11.2026        Concera Software (RL) - v1.3.0
-
-    Added    Support for specifying channel variables when creating channels.
-    Added    Support for reading and writing single and multiple bridge variables.
-    Added    Protocol_id property to the Channel model.
-    Added    Tech_cause property to ChannelHangupRequest and ChannelDestroyed events.
-    Fixed    RTP SSRC fields now use unsigned 32-bit integers, matching Asterisk's underlying definitions and preventing deserialization errors.
-    Changed  Updated Newtonsoft.Json from 9.0.1 to 13.0.4 for the .NET Framework project.
-    Changed  Removed the outdated ARICodeGen project from the Visual Studio solution while retaining its source files.
