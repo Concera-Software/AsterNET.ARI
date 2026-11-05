@@ -90,7 +90,7 @@ namespace AsterNET.ARI
 		event TextMessageReceivedEventHandler OnTextMessageReceivedEvent;
 		event ChannelConnectedLineEventHandler OnChannelConnectedLineEvent;
 		event UnhandledEventHandler OnUnhandledEvent;
-		// event UnhandledExceptionEventHandler OnUnhandledException;
+		event UnhandledExceptionEventHandler OnUnhandledException;
 	}
 
 
@@ -139,22 +139,22 @@ namespace AsterNET.ARI
 			public event StasisStartEventHandler OnStasisStartEvent;
 			public event TextMessageReceivedEventHandler OnTextMessageReceivedEvent;
 			public event ChannelConnectedLineEventHandler OnChannelConnectedLineEvent;
-			public event UnhandledEventHandler OnUnhandledEvent; 
-			// public event UnhandledExceptionEventHandler OnUnhandledException;
+			public event UnhandledEventHandler OnUnhandledEvent;
+		    public event UnhandledExceptionEventHandler OnUnhandledException;
 		#endregion
 
-		//protected bool UnhandledException(object sender, Exception exception)
-        //{
-        //   if (OnUnhandledException != null)
-        //    {
-        //        OnUnhandledException(sender, exception);
-        //        return true;
-        //    }
-		//
-        //    return false;
-        //}
+		protected bool UnhandledException(object sender, Exception exception)
+		{
+			if (OnUnhandledException != null)
+			{
+                OnUnhandledException(sender, new UnhandledExceptionEventArgs(exception, isTerminating: false));
+                return true;
+			}
 
-		
+			return false;
+		}
+
+
 		protected void FireEvent(string eventName, object eventArgs, IAriClient sender)
 		{
 		

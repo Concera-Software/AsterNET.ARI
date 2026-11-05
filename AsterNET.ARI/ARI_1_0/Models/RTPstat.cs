@@ -153,12 +153,12 @@ namespace AsterNET.ARI.Models
 		/// <summary>
 		/// Our SSRC.
 		/// </summary>
-		public int Local_ssrc { get; set; }
+		public uint Local_ssrc { get; set; }
 
 		/// <summary>
 		/// Their SSRC.
 		/// </summary>
-		public int Remote_ssrc { get; set; }
+		public uint Remote_ssrc { get; set; }
 
 		/// <summary>
 		/// Number of octets transmitted.

@@ -105,17 +105,18 @@ namespace AsterNET.ARI.Actions
 					throw new AriException(string.Format("Unknown response code {0} from ARI.", response.StatusCode), (int)response.StatusCode);
             }
 		}
-		/// <summary>
-		/// Create channel.. 
-		/// </summary>
-		/// <param name="endpoint">Endpoint for channel communication</param>
-		/// <param name="app">Stasis Application to place channel into</param>
-		/// <param name="appArgs">The application arguments to pass to the Stasis application provided by 'app'. Mutually exclusive with 'context', 'extension', 'priority', and 'label'.</param>
-		/// <param name="channelId">The unique id to assign the channel on creation.</param>
-		/// <param name="otherChannelId">The unique id to assign the second channel when using local channels.</param>
-		/// <param name="originator">Unique ID of the calling channel</param>
-		/// <param name="formats">The format name capability list to use if originator is not specified. Ex. "ulaw,slin16".  Format names can be found with "core show codecs".</param>
-		public Channel Create(string endpoint, string app, string appArgs = null, string channelId = null, string otherChannelId = null, string originator = null, string formats = null)
+        /// <summary>
+        /// Create channel.. 
+        /// </summary>
+        /// <param name="endpoint">Endpoint for channel communication</param>
+        /// <param name="app">Stasis Application to place channel into</param>
+        /// <param name="appArgs">The application arguments to pass to the Stasis application provided by 'app'. Mutually exclusive with 'context', 'extension', 'priority', and 'label'.</param>
+        /// <param name="channelId">The unique id to assign the channel on creation.</param>
+        /// <param name="otherChannelId">The unique id to assign the second channel when using local channels.</param>
+        /// <param name="originator">Unique ID of the calling channel</param>
+        /// <param name="formats">The format name capability list to use if originator is not specified. Ex. "ulaw,slin16".  Format names can be found with "core show codecs".</param>
+        /// <param name="variables">The "variables" key in the body object holds variable key/value pairs to set on the channel on creation. Other keys in the body object are interpreted as query parameters. Ex. { "endpoint": "SIP/Alice", "variables": { "CALLERID(name)": "Alice" } }</param>
+        public Channel Create(string endpoint, string app, string appArgs = null, string channelId = null, string otherChannelId = null, string originator = null, string formats = null, Dictionary<string, string> variables = null)
 		{
 			string path = "channels/create";
 			var request = GetNewRequest(path, HttpMethod.POST);
@@ -133,8 +134,10 @@ namespace AsterNET.ARI.Actions
 				request.AddParameter("originator", originator, ParameterType.QueryString);
 			if(formats != null)
 				request.AddParameter("formats", formats, ParameterType.QueryString);
+            if (variables != null)
+                request.AddParameter("application/json", new { variables = variables }, ParameterType.RequestBody);
 
-			var response = Execute<Channel>(request);
+            var response = Execute<Channel>(request);
 
 			if((int)response.StatusCode >= 200 && (int)response.StatusCode < 300)
 				return response.Data;
