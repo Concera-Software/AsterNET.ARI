@@ -14,10 +14,8 @@ namespace AsterNET.ARI.Middleware.Default
         {
             Client = new RestClient(info.AriEndPoint)
             {
-                Authenticator = new HttpBasicAuthenticator(info.Username, info.Password)
-#if NETSTANDARD
-                ,IgnoreResponseStatusCode = true
-#endif
+                Authenticator = new HttpBasicAuthenticator(info.Username, info.Password),
+                IgnoreResponseStatusCode = true
             };
 
             Request = new RestRequest(path) {Serializer = new RestSharp.Portable.Serializers.JsonSerializer()};
